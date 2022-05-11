@@ -11,7 +11,7 @@ jobs:
     - name: check messages
       run: |
         for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
-          if [[ ${{ $commit.message }} =~ ^fixup! .*$ ]]; then
+          if [[ $commit.message =~ ^fixup!.*$ ]]; then
             exit 1
           fi
         done
