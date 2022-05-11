@@ -6,7 +6,7 @@ on:
 jobs:
   check:
     name: Check commit messages
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: check messages
       run: |
