@@ -1,0 +1,25 @@
+name: ✏️ Check For Draft Commits
+on: pull_request
+
+jobs:
+  check-commit-messages:
+    name: 🧐 Search commit messages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check commit messages
+        run: |
+          commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+          fixup_regex='^(fixup|squash)!'
+          for commit in $commits; do
+            commit_message=$(git log --format=%B -n 1 $commit | cat -)
+            if [[ "$commit_message" =~ $fixup_regex ]]; then
+              number_of_commits=${{ github.event.pull_request.commits }}
+              echo "❌ Draft commit(s) found (fixup or squash), please squash with: git rebase --autosquash HEAD~$number_of_commits"
+              exit 1
+            fi
+          done
+          echo "🚀 No fixup commits found! Ship it!"
