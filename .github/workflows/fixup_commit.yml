@@ -1,14 +1,14 @@
 name: Check For Fixup Commits
 on:
   pull_request:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   check:
     name: Check commit messages
-    runs-on: ubuntu-latest
+    runs-on: shopify-ubuntu-latest
     steps:
-    - name: check messages
+      - name: check messages
       run: |
         for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
           if [[ $commit.message =~ ^fixup!.*$ ]]; then
