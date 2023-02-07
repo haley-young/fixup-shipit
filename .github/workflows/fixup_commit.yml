@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check messages
+      - uses: actions/checkout@v3
         run: |
           for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
             echo $commit.message
