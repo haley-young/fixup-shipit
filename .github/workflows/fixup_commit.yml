@@ -4,10 +4,10 @@ on:
     types: [opened, edited, reopened]
 
 jobs:
-  check:
+  check-commit-messages:
     name: Check commit messages
     runs-on: ubuntu-latest
     steps:
       - name: Check messages
-      run: |
-        sudo echo "test?"
+        run: |
+          sudo echo "test?"
