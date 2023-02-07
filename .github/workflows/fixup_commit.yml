@@ -15,6 +15,10 @@ jobs:
           fetch-depth: 0
       - name: Check commit messages
         run: |
+          if [[ ${{ github.event.pull_request.head.sha }} =~ ^fixup! .*$ ]]; then
+            echo "got here?!"
+            exit 1
+          fi
           for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
             echo $commit.message
             if [[ $commit.message =~ ^fixup!.*$ ]]; then
