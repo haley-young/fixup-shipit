@@ -17,11 +17,10 @@ jobs:
           MATCH='^fixup!'
           commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
           for commit in $commits; do
-            echo $commit
             MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
             if [[ "$MESSAGE" =~ $MATCH ]]; then
-              numberOfCommits=${{ github.event.pull_request.commits }}
-              echo "❌ Fixup commit found, please squash with `git rebase --autosquash HEAD~${{ $numberOfCommits }}`"
+              number_of_commits=${{ github.event.pull_request.commits }}
+              echo "❌ Fixup commit found, please squash with `git rebase --autosquash HEAD~$number_of_commits`"
               exit 1
             fi
           done
