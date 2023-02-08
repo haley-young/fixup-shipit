@@ -15,7 +15,9 @@ jobs:
       - name: Check commit messages
         run: |
           MATCH='^fixup!'
-          commits=${{ github.event.pull_request.commits }}
+          git log test-workflow
+          git log main
+          commits=$(git rev-list ${{ github.base_ref }}..${{ github.head_ref }})
           for commit in $commits; do
             echo $commit
             MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
