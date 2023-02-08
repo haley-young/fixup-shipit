@@ -1,14 +1,15 @@
-name: Fixup Commits
+name: ✏️ Check For Fixup Commits
 on:
   pull_request:
     types: [opened, edited, reopened]
 
 jobs:
   check-commit-messages:
+    name: Check commit messages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Check commit messages
@@ -19,7 +20,8 @@ jobs:
             commit_message=$(git log --format=%B -n 1 $commit | cat -)
             if [[ "$commit_message" =~ $fixup_regex ]]; then
               number_of_commits=${{ github.event.pull_request.commits }}
-              echo "❌ Fixup commit found, please squash with: git rebase --autosquash HEAD~$number_of_commits"
+              echo "❌ Fixup commit(s) found, please squash with: git rebase --autosquash HEAD~$number_of_commits"
               exit 1
             fi
           done
+          echo "🚀 No draft commits found! Ship it!"
