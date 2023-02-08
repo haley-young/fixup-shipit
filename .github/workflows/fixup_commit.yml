@@ -5,7 +5,6 @@ on:
 
 jobs:
   check-commit-messages:
-    name: Check commit messages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,11 +13,11 @@ jobs:
           fetch-depth: 0
       - name: Check commit messages
         run: |
-          MATCH='^fixup!'
           commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+          fixup_regex='^fixup!'
           for commit in $commits; do
-            MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
-            if [[ "$MESSAGE" =~ $MATCH ]]; then
+            commit_message=$(git log --format=%B -n 1 $commit | cat -)
+            if [[ "$commit_message" =~ $fixup_regex ]]; then
               number_of_commits=${{ github.event.pull_request.commits }}
               echo "❌ Fixup commit found, please squash with: git rebase --autosquash HEAD~$number_of_commits"
               exit 1
