@@ -5,7 +5,7 @@ on:
 
 jobs:
   check-commit-messages:
-    name: Check commit messages
+    name: 🧐 Search commit messages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
