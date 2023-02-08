@@ -19,9 +19,10 @@ jobs:
             echo "got here?!"
             exit 1
           fi
-          for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
-            echo $commit.message
-            if [[ $commit.message =~ ^fixup!.*$ ]]; then
+          MATCH='^fixup!'
+          for commit in $(git rev-list main..test-workflow); do
+            MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
+            if [[ "$MESSAGE" =~ $MATCH ]]; then
               exit 1
             fi
           done
