@@ -20,7 +20,7 @@ jobs:
             MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
             if [[ "$MESSAGE" =~ $MATCH ]]; then
               number_of_commits=${{ github.event.pull_request.commits }}
-              echo "❌ Fixup commit found, please squash with `git rebase --autosquash HEAD~$number_of_commits`"
+              echo "❌ Fixup commit found, please squash with: git rebase --autosquash HEAD~$number_of_commits"
               exit 1
             fi
           done
