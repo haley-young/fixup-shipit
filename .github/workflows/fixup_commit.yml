@@ -15,10 +15,6 @@ jobs:
           fetch-depth: 0
       - name: Check commit messages
         run: |
-          if [[ ${{ github.event.pull_request.head.message }} =~ ^fixup! .*$ ]]; then
-            echo "got here?!"
-            exit 1
-          fi
           MATCH='^fixup!'
           for commit in $(git rev-list main..test-workflow); do
             echo $commit
