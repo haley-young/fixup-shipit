@@ -20,6 +20,7 @@ jobs:
             echo $commit
             MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
             if [[ "$MESSAGE" =~ $MATCH ]]; then
+              echo ""
               exit 1
             fi
           done
