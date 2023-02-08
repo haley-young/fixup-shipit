@@ -1,4 +1,4 @@
-name: Check For Fixup Commits
+name: Fixup Commits
 on:
   pull_request:
     types: [opened, edited, reopened]
@@ -20,7 +20,8 @@ jobs:
             echo $commit
             MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
             if [[ "$MESSAGE" =~ $MATCH ]]; then
-              echo ""
+              numberOfCommits=${{ github.event.pull_request.commits }}
+              echo "❌ Fixup commit found, please squash with `git rebase --autosquash HEAD~${{ $numberOfCommits }}`"
               exit 1
             fi
           done
