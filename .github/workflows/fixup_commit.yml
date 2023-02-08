@@ -11,12 +11,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Check commit messages
         run: |
           MATCH='^fixup!'
-          for commit in $(git rev-list main..test-workflow); do
+          commmits = commits=${{ github.event.pull_request.commits }}
+          for commit in $commits; do
             echo $commit
             MESSAGE=$(git log --format=%B -n 1 $commit | cat -)
             if [[ "$MESSAGE" =~ $MATCH ]]; then
